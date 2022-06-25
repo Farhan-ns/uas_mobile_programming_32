@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:uas_mobile_programming_32/customer/customer_register.dart';
 
 class CustomerLogin extends StatefulWidget {
   const CustomerLogin({Key? key}) : super(key: key);
@@ -31,7 +33,7 @@ class _CustomerLoginState extends State<CustomerLogin> {
                   alignment: Alignment.center,
                   padding: EdgeInsets.all(10),
                   child: const Text(
-                    'Welcome',
+                    'Log In',
                     style: TextStyle(
                         color: Colors.blue,
                         fontWeight: FontWeight.bold,
@@ -60,6 +62,26 @@ class _CustomerLoginState extends State<CustomerLogin> {
                             decoration: const InputDecoration(
                                 border: OutlineInputBorder(),
                                 labelText: "Password"),
+                          ),
+                        ),
+                        Container(
+                          child: TextButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  PageTransition(
+                                      child: CustomerRegister(),
+                                      type: PageTransitionType.fade,
+                                      reverseDuration:
+                                          Duration(milliseconds: 900),
+                                      duration: Duration(milliseconds: 400)));
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: const [
+                                Text('Belum punya akun? Daftar'),
+                              ],
+                            ),
                           ),
                         ),
                         Container(
