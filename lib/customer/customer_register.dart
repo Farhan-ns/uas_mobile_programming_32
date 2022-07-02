@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:uas_mobile_programming_32/models/user.dart';
+import 'package:uas_mobile_programming_32/repository.dart';
 
 class CustomerRegister extends StatefulWidget {
   const CustomerRegister({Key? key}) : super(key: key);
-
-  static const routeName = '/customer/register';
 
   @override
   State<CustomerRegister> createState() => _CustomerRegisterState();
@@ -11,14 +11,17 @@ class CustomerRegister extends StatefulWidget {
 
 class _CustomerRegisterState extends State<CustomerRegister> {
   TextEditingController emailController = TextEditingController();
-  TextEditingController namaController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confPasswordController = TextEditingController();
 
+  Repository repository = Repository();
   EdgeInsets formPadding = EdgeInsets.fromLTRB(10, 10, 10, 0);
 
   @override
   Widget build(BuildContext context) {
+    // var user = User(nameController.text, emailController.text);
+
     return Scaffold(
       appBar: AppBar(title: const Text('Register')),
       body: SafeArea(
@@ -55,7 +58,7 @@ class _CustomerRegisterState extends State<CustomerRegister> {
                         Container(
                           padding: formPadding,
                           child: TextField(
-                            controller: namaController,
+                            controller: nameController,
                             decoration: const InputDecoration(
                                 border: OutlineInputBorder(),
                                 labelText: "Nama"),
@@ -93,8 +96,16 @@ class _CustomerRegisterState extends State<CustomerRegister> {
                                             const EdgeInsets.fromLTRB(
                                                 30, 12, 30, 12)),
                                   ),
-                                  onPressed: () => {},
-                                  child: const Text('Login'))
+                                  onPressed: () {
+                                    Map<String, String> data = {
+                                      'name': nameController.text,
+                                      'email': emailController.text,
+                                      'password': passwordController.text,
+                                      'uploadedFile': '',
+                                    };
+                                    repository.postData(data);
+                                  },
+                                  child: const Text('Register'))
                             ],
                           ),
                         )

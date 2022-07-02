@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "175999661328",
+    "firebase_url": "https://uas-mobile-26dd7-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "uas-mobile-26dd7",
+    "storage_bucket": "uas-mobile-26dd7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:175999661328:android:3a823acd9e6a6c133ae195",
+        "android_client_info": {
+          "package_name": "com.example.uas_mobile_programming_32"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "175999661328-374mu8rubh20l0u6vjg26lmdcvn9o95m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBrVg4_obGy3YVbuIXhZqT_EYsbrZAL92s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "175999661328-374mu8rubh20l0u6vjg26lmdcvn9o95m.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "175999661328-fv7udcfp6d89uvldlt3khp3e66iefb2e.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.uasMobileProgramming32"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
