@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uas_mobile_programming_32/components/appbar.dart';
 import 'package:uas_mobile_programming_32/components/cButton.dart';
 import 'package:uas_mobile_programming_32/components/cTextField.dart';
@@ -67,6 +69,21 @@ class _CustomerFormState extends State<CustomerForm> {
                   'address': _addressController.text,
                   'uploadedFile': _fileNameController.text
                 }));
+            User user2 = User.fromJson({
+              'name': _nameController.text,
+              'birthPlace': _birthPlaceController.text,
+              'birthDate': _birthDateController.text,
+              'address': _addressController.text,
+              'uploadedFile': _fileNameController.text,
+              'id': user.id,
+              'email': user.email,
+              'password': user.password,
+              'gender': user.gender,
+            });
+
+            SharedPref prefs = SharedPref();
+            prefs.save(User.obj, user2);
+            Navigator.pop(context);
           },
           child: Icon(Icons.check_rounded),
         ),

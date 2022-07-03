@@ -1,5 +1,6 @@
 class User {
   static const obj = 'user';
+  static const detail = 'detail';
   static const idK = 'id';
   static const nameK = 'name';
   static const emailK = 'email';
@@ -15,9 +16,11 @@ class User {
   final String birthDate;
   final String gender;
   final String address;
+  String flagPengajuan;
 
   User(this.name, this.email, this.id, this.password, this.uploadedFile,
-      this.birthPlace, this.birthDate, this.gender, this.address);
+      this.birthPlace, this.birthDate, this.gender, this.address,
+      {this.flagPengajuan = 'pending'});
 
   User.fromJson(Map<String, dynamic> json)
       : id = json['id'],
@@ -28,7 +31,8 @@ class User {
         birthPlace = json['birthPlace'],
         birthDate = json['birthDate'],
         gender = json['gender'],
-        address = json['address'];
+        address = json['address'],
+        flagPengajuan = json['flagPengajuan'] ?? 'pending';
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
@@ -41,6 +45,7 @@ class User {
     data['birthDate'] = birthDate;
     data['gender'] = gender;
     data['address'] = address;
+    data['flagPengajuan'] = flagPengajuan;
     return data;
   }
 }

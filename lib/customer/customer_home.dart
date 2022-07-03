@@ -1,8 +1,10 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:uas_mobile_programming_32/admin/admin_home.dart';
 import 'package:uas_mobile_programming_32/components/appbar.dart';
 import 'package:uas_mobile_programming_32/components/cButton.dart';
 import 'package:uas_mobile_programming_32/components/cTextField.dart';
@@ -30,6 +32,12 @@ class _CustomerHomeState extends State<CustomerHome> {
     setState(() {});
   }
 
+  FutureOr onGoBack(dynamic value) async {
+    var obj = await prefs.read(User.obj);
+    user = User.fromJson(obj);
+    setState(() {});
+  }
+
   @override
   void initState() {
     getPrefs();
@@ -41,7 +49,17 @@ class _CustomerHomeState extends State<CustomerHome> {
     const screenPadding = EdgeInsets.symmetric(horizontal: 8, vertical: 2);
 
     return Scaffold(
-      appBar: CAppBar("Test"),
+      appBar: AppBar(
+        title: Text('Home'),
+        actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const AdminHome()));
+              },
+              icon: Icon(Icons.dashboard)),
+        ],
+      ),
       body: SafeArea(
         child: Container(
           padding: screenPadding,
@@ -63,7 +81,7 @@ class _CustomerHomeState extends State<CustomerHome> {
               ],
             ),
             statusCard(1, 'Pending', user),
-            dataCard(context, 3, user),
+            dataCard(context, 3, user, onGoBack),
           ]),
         ),
       ),
@@ -79,97 +97,116 @@ Widget statusCard(int flex, String status, User user) => Expanded(
         padding: generalPadding,
         child: Column(
           children: [
-            Row(
-              children: [Text('Selamat Datang,  ' + user.name)],
+            Expanded(
+              flex: 1,
+              child: Row(
+                children: [Text('Selamat Datang,  ' + user.name)],
+              ),
+            ),
+            Expanded(
+              flex: 1,
+              child: Row(
+                children: [Text('Status Pengajuan:  ' + user.flagPengajuan)],
+              ),
+            ),
+            Expanded(
+              flex: 2,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [CButton('Refresh', () {})],
+              ),
             )
           ],
         ),
       ),
     ));
 
-Widget dataCard(BuildContext context, int flex, User user) => Expanded(
-    flex: flex,
-    child: Card(
-      elevation: 5,
-      child: Padding(
-        padding: generalPadding,
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                CButton(
-                    'Edit Biodata',
-                    (() => {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const CustomerForm()))
-                        }))
-              ],
-            ),
-            Column(
+Widget dataCard(BuildContext context, int flex, User user,
+        FutureOr<dynamic> onGoBack(value)) =>
+    Expanded(
+        flex: flex,
+        child: Card(
+          elevation: 5,
+          child: Padding(
+            padding: generalPadding,
+            child: Column(
               children: [
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Text('Nama: '),
-                    const SizedBox(
-                      width: 12,
-                    ),
-                    Text(user.name)
+                    CButton(
+                        'Edit Biodata',
+                        (() => {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const CustomerForm())).then(onGoBack)
+                            }))
                   ],
                 ),
-                const SizedBox(
-                  height: 12,
-                ),
-                Row(
+                Column(
                   children: [
-                    Text('Email: '),
-                    const SizedBox(
-                      width: 12,
+                    Row(
+                      children: [
+                        Text('Nama: '),
+                        const SizedBox(
+                          width: 12,
+                        ),
+                        Text(user.name)
+                      ],
                     ),
-                    Text(user.email)
-                  ],
-                ),
-                const SizedBox(
-                  height: 12,
-                ),
-                Row(
-                  children: [
-                    Text('Tempat, Tanggal Lahir: '),
                     const SizedBox(
-                      width: 12,
+                      height: 12,
                     ),
-                    Text(user.birthPlace + ',  ' + user.birthDate)
-                  ],
-                ),
-                const SizedBox(
-                  height: 12,
-                ),
-                Row(
-                  children: [
-                    Text('Alamat: '),
+                    Row(
+                      children: [
+                        Text('Email: '),
+                        const SizedBox(
+                          width: 12,
+                        ),
+                        Text(user.email)
+                      ],
+                    ),
                     const SizedBox(
-                      width: 12,
+                      height: 12,
                     ),
-                    Text(user.address)
-                  ],
-                ),
-                const SizedBox(
-                  height: 12,
-                ),
-                Row(
-                  children: [
-                    Text('Lampiran: '),
+                    Row(
+                      children: [
+                        Text('Tempat, Tanggal Lahir: '),
+                        const SizedBox(
+                          width: 12,
+                        ),
+                        Text(user.birthPlace + ',  ' + user.birthDate)
+                      ],
+                    ),
                     const SizedBox(
-                      width: 12,
+                      height: 12,
                     ),
-                    Text(user.uploadedFile)
+                    Row(
+                      children: [
+                        Text('Alamat: '),
+                        const SizedBox(
+                          width: 12,
+                        ),
+                        Text(user.address)
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 12,
+                    ),
+                    Row(
+                      children: [
+                        Text('Lampiran: '),
+                        const SizedBox(
+                          width: 12,
+                        ),
+                        Text(user.uploadedFile)
+                      ],
+                    )
                   ],
                 )
               ],
-            )
-          ],
-        ),
-      ),
-    ));
+            ),
+          ),
+        ));

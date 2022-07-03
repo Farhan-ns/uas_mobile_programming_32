@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:uas_mobile_programming_32/models/user.dart';
 
@@ -49,8 +50,8 @@ class Repository {
   ) async {
     try {
       final postEndpoint = Uri.parse(_userEndpoint + '/$id');
-      print(postEndpoint);
-      inspect(data);
+      debugPrint(id);
+      debugPrint(data);
       final response =
           await http.put(postEndpoint, body: data, headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',

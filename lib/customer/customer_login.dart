@@ -43,6 +43,7 @@ class _CustomerLoginState extends State<CustomerLogin> {
 
       prefs.setString(User.idK, user.id);
       prefs.setString(User.emailK, user.email);
+      prefs.setString(User.passwordK, user.password);
       prefs.setString(User.obj, jsonEncode(user));
       return true;
     } else {
@@ -103,7 +104,7 @@ class _CustomerLoginState extends State<CustomerLogin> {
                           children: [
                             TextButton(
                               onPressed: () {
-                                Navigator.push(
+                                Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
