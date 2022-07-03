@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:http/http.dart' as http;
 import 'package:uas_mobile_programming_32/models/user.dart';
@@ -22,10 +23,31 @@ class Repository {
     }
   }
 
-  Future postData(Map<String, String> data) async {
+  Future postData(
+    String data,
+  ) async {
     try {
-      final response = await http.post(Uri.parse(_userEndpoint), body: data);
-      print(response.body);
+      final postEndpoint = Uri.parse(_userEndpoint);
+      print(postEndpoint);
+      final response = await http.post(postEndpoint, body: data);
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Future editData(
+    String id,
+    String data,
+  ) async {
+    try {
+      final postEndpoint = Uri.parse(_userEndpoint + '/$id');
+      print(postEndpoint);
+      inspect(data);
+      final response =
+          await http.put(postEndpoint, body: data, headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      });
+      inspect(response);
     } catch (e) {
       print(e.toString());
     }
