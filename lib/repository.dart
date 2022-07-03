@@ -29,10 +29,18 @@ class Repository {
     try {
       final postEndpoint = Uri.parse(_userEndpoint);
       print(postEndpoint);
-      final response = await http.post(postEndpoint, body: data);
+      final response = await http.post(postEndpoint,
+          body: data,
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8'
+          });
+      if (response.statusCode == 201) {
+        return response.body;
+      }
     } catch (e) {
       print(e.toString());
     }
+    return '';
   }
 
   Future editData(
