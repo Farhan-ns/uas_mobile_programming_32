@@ -1,9 +1,12 @@
+import 'dart:convert';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:uas_mobile_programming_32/components/appbar.dart';
 import 'package:uas_mobile_programming_32/components/cButton.dart';
 import 'package:uas_mobile_programming_32/components/cTextField.dart';
 import 'package:uas_mobile_programming_32/models/user.dart';
+import 'package:uas_mobile_programming_32/repository.dart';
 import 'package:uas_mobile_programming_32/shared_prefs.dart';
 
 class CustomerForm extends StatefulWidget {
@@ -25,6 +28,7 @@ class _CustomerFormState extends State<CustomerForm> {
 
   Gender? _gender = Gender.laki;
   SharedPref prefs = SharedPref();
+  Repository repo = Repository();
   User user = User('', '', '', '', '', '', '', '', '');
 
   getPrefs() async {
@@ -52,6 +56,20 @@ class _CustomerFormState extends State<CustomerForm> {
 
     return Scaffold(
         appBar: CAppBar('Edit Biodata'),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () async {
+            await repo.editData(
+                user.id,
+                jsonEncode({
+                  'name': _nameController.text,
+                  'birthPlace': _birthPlaceController.text,
+                  'birthDate': _birthDateController.text,
+                  'address': _addressController.text,
+                  'uploadedFile': _fileNameController.text
+                }));
+          },
+          child: Icon(Icons.check_rounded),
+        ),
         body: SafeArea(
           child: SingleChildScrollView(
             child: Padding(
