@@ -1,6 +1,12 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:uas_mobile_programming_32/customer/customer_home.dart';
 import 'package:uas_mobile_programming_32/models/user.dart';
 import 'package:uas_mobile_programming_32/repository.dart';
+import 'package:uas_mobile_programming_32/shared_prefs.dart';
 
 class CustomerRegister extends StatefulWidget {
   const CustomerRegister({Key? key}) : super(key: key);
@@ -96,14 +102,36 @@ class _CustomerRegisterState extends State<CustomerRegister> {
                                             const EdgeInsets.fromLTRB(
                                                 30, 12, 30, 12)),
                                   ),
-                                  onPressed: () {
+                                  onPressed: () async {
                                     Map<String, String> data = {
                                       'name': nameController.text,
                                       'email': emailController.text,
                                       'password': passwordController.text,
                                       'uploadedFile': '',
+                                      'birthPlace': '',
+                                      'birthDate': '',
+                                      'gender': '',
+                                      'address': '',
                                     };
-                                    repository.postData(data);
+                                    var response = await repository
+                                        .postData(jsonEncode(data));
+                                    if (response != null) {
+                                      User user =
+                                          User.fromJson(jsonDecode(response));
+
+                                      SharedPreferences prefs =
+                                          await SharedPreferences.getInstance();
+                                      prefs.setString(User.idK, user.id);
+                                      prefs.setString(User.emailK, user.email);
+                                      prefs.setString(
+                                          User.obj, jsonEncode(user));
+
+                                      Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  CustomerHome()));
+                                    }
                                   },
                                   child: const Text('Register'))
                             ],
