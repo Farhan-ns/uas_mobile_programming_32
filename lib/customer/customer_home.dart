@@ -27,7 +27,6 @@ class _CustomerHomeState extends State<CustomerHome> {
   getPrefs() async {
     var obj = await prefs.read(User.obj);
     user = User.fromJson(obj);
-    inspect(user);
     setState(() {});
   }
 
@@ -149,7 +148,7 @@ Widget dataCard(BuildContext context, int flex, User user) => Expanded(
                 ),
                 Row(
                   children: [
-                    Text('Alamats: '),
+                    Text('Alamat: '),
                     const SizedBox(
                       width: 12,
                     ),
